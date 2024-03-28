@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ImageSlider from "./ImageSlider";
+import BookingCalendar from "./BookingCalendar";
 
 function App() {
   const images = [
@@ -27,19 +28,15 @@ function App() {
       <div className="banner">
         <h1>Andy's holiday home</h1>
       </div>
+
       <div style={containerStyles}>
         <ImageSlider images={images} />
       </div>
 
-      {/* <div style={containerStyles}><ImageSlider images={images} /></div> */}
+      <h2>Pick your days:</h2>
 
       <div>
-        {/* <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a> */}
+        <BookingCalendar />
       </div>
     </div>
   );
