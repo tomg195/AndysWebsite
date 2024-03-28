@@ -70,6 +70,11 @@ const ImageSlider = ({ images }) => {
     setCurrentIndex(slideIndex);
   };
 
+  const slideStylesWidthBackground = {
+    ...slideStyles,
+    backgroundImage: `url(${images[currentIndex].url})`,
+  };
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "ArrowLeft") {
@@ -97,12 +102,7 @@ const ImageSlider = ({ images }) => {
         </div>
       </div>
 
-      <div
-        style={{
-          ...slideStyles,
-          backgroundImage: `url(${images[currentIndex]})`,
-        }}
-      ></div>
+      <div style={slideStylesWidthBackground}></div>
 
       <div style={dotsContainerStyles}>
         {images.map((_, index) => (

@@ -4,17 +4,17 @@ import BookingCalendar from "./BookingCalendar";
 
 function App() {
   const images = [
-    "./images/IMG1.jpg",
-    "./images/IMG2.jpg",
-    "./images/IMG3.jpg",
-    "./images/IMG4.jpg",
-    "./images/IMG5.jpg",
-    "./images/IMG6.jpg",
-    "./images/IMG7.jpg",
-    "./images/IMG8.jpg",
-    "./images/IMG9.jpg",
-    "./images/IMG10.jpg",
-    "./images/IMG11.jpg",
+    { url: "http://localhost:5173/images/IMG1.jpg" },
+    { url: "http://localhost:5173/images/IMG2.jpg" },
+    { url: "http://localhost:5173/images/IMG3.jpg" },
+    { url: "http://localhost:5173/images/IMG4.jpg" },
+    { url: "http://localhost:5173/images/IMG5.jpg" },
+    { url: "http://localhost:5173/images/IMG6.jpg" },
+    { url: "http://localhost:5173/images/IMG7.jpg" },
+    { url: "http://localhost:5173/images/IMG8.jpg" },
+    { url: "http://localhost:5173/images/IMG9.jpg" },
+    { url: "http://localhost:5173/images/IMG10.jpg" },
+    { url: "http://localhost:5173/images/IMG11.jpg" },
   ];
 
   const containerStyles = {
