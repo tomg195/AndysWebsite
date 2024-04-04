@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { addDays, setDay } from "date-fns";
 import { DateRange } from "react-date-range";
-import { format } from "date-fns/format";
+import BookingPopUp from "./BookingPopUp";
 
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
@@ -17,19 +17,34 @@ const BookingCalendar = () => {
   ]);
 
   const [daysSelected, setDaysSelected] = useState(false);
+  const [showPopUp, setShowPopUp] = useState(false);
 
+  // Function is triggered when user selects a date range. The item is the date range.
   const handleDaysSelect = (item) => {
-    setRange([item.selection]);
-    if (item.selection.startDate && item.selection.endDate) {
-      setDaysSelected(true);
-    } else {
-      setDaysSelected(false);
-    }
+    setRange([item.selection]); // updates selected range in state
+    setDaysSelected(item.selection.startDate && item.selection.endDate); // Set daysSelected based on whether startDate and endDate are selected
   };
 
   const handleReserveClick = () => {
-    console.log("Reserved!");
+    setShowPopUp(true);
   };
+
+  const closePopUp = () => {
+    setShowPopUp(false);
+  };
+
+  useEffect(() => {
+    if (daysSelected) {
+      const button = document.querySelector(".reserveButton");
+      if (button) {
+        button.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }
+  }, [daysSelected]);
+
+  useEffect(() => {
+    setShowPopUp(false);
+  }, []);
 
   return (
     <div className="calendarWrap">
@@ -50,6 +65,7 @@ const BookingCalendar = () => {
           </button>
         )}
       </div>
+      {showPopUp && <BookingPopUp onClose={closePopUp} />}
     </div>
   );
 };
