@@ -5,16 +5,16 @@ import BookingCalendar from "./BookingCalendar";
 function App() {
   const images = [
     { url: "https://andyhardingholidayhome.netlify.app/images/IMG1.jpg" },
-    { url: "/images/IMG2.jpg" },
-    { url: "/images/IMG3.jpg" },
-    { url: "/images/IMG4.jpg" },
-    { url: "/images/IMG5.jpg" },
-    { url: "/images/IMG6.jpg" },
-    { url: "/images/IMG7.jpg" },
-    { url: "/images/IMG8.jpg" },
-    { url: "/images/IMG9.jpg" },
-    { url: "/images/IMG10.jpg" },
-    { url: "/images/IMG11.jpg" },
+    { url: "/IMG2.jpg" },
+    { url: "/IMG3.jpg" },
+    { url: "/IMG4.jpg" },
+    { url: "/IMG5.jpg" },
+    { url: "/IMG6.jpg" },
+    { url: "/IMG7.jpg" },
+    { url: "/IMG8.jpg" },
+    { url: "/IMG9.jpg" },
+    { url: "/IMG10.jpg" },
+    { url: "/IMG11.jpg" },
   ];
 
   const containerStyles = {
