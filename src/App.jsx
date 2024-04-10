@@ -4,7 +4,7 @@ import BookingCalendar from "./BookingCalendar";
 
 function App() {
   const images = [
-    { url: "http://localhost:5173/IMG1.jpg" },
+    { url: "/IMG1.jpg" },
     { url: "/IMG2.jpg" },
     { url: "/IMG3.jpg" },
     { url: "/IMG4.jpg" },
