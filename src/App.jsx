@@ -4,7 +4,7 @@ import BookingCalendar from "./BookingCalendar";
 
 function App() {
   const images = [
-    { url: "/images/IMG1.jpg" },
+    { url: "https://andyhardingholidayhome.netlify.app/images/IMG1.jpg" },
     { url: "/images/IMG2.jpg" },
     { url: "/images/IMG3.jpg" },
     { url: "/images/IMG4.jpg" },
