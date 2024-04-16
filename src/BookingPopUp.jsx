@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { format } from "date-fns";
+import { format, differenceInDays } from "date-fns";
+import { calcTotalPrice } from "./Pricing";
 
 const popUpOverlay = {
   position: "fixed",
@@ -57,7 +58,9 @@ const priceSection = {
 const BookingPopUp = ({ onClose, selectedRange }) => {
   document.body.classList.add("popUp-open");
 
-  const [people, setPeople] = useState(1);
+  const [people, setPeople] = useState(0);
+  const [pets, setPets] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -75,12 +78,26 @@ const BookingPopUp = ({ onClose, selectedRange }) => {
     };
   }, [onClose]);
 
+  useEffect(() => {
+    const days =
+      differenceInDays(selectedRange.endDate, selectedRange.startDate) + 1;
+
+    const newTotalPrice = calcTotalPrice(people, pets, days);
+
+    setTotalPrice(newTotalPrice);
+  }, [people, pets, selectedRange]);
+
   const formatDate = (date) => {
     return format(date, "EEE, d MMM");
   };
 
   const handlePeopleChange = (event) => {
-    setPeople(parseInt(event.target.value));
+    const selectedPeopleCount = parseInt(event.target.value);
+    setPeople(selectedPeopleCount);
+  };
+
+  const handlePetsChange = (event) => {
+    setPets(parseInt(event.target.value));
   };
 
   return (
@@ -96,19 +113,22 @@ const BookingPopUp = ({ onClose, selectedRange }) => {
 
         <div style={peopleAndPets}>
           <h5 style={peopleSelect}>People:</h5>
-
-          <select style={boxOption} onChange={handlePeopleChange}>
+          <select
+            style={boxOption}
+            value={people}
+            onChange={handlePeopleChange}
+          >
             {[...Array(10)].map((_, index) => (
-              <option key={index} value={index + 1} style={numberStyle}>
+              <option key={index} value={index} style={numberStyle}>
                 {index}
               </option>
             ))}
           </select>
 
           <h5 style={petSelect}>Pets:</h5>
-          <select style={boxOption} onChange={handlePeopleChange}>
+          <select style={boxOption} value={pets} onChange={handlePetsChange}>
             {[...Array(6)].map((_, index) => (
-              <option key={index} value={index + 1} style={numberStyle}>
+              <option key={index} value={index} style={numberStyle}>
                 {index}
               </option>
             ))}
@@ -116,7 +136,7 @@ const BookingPopUp = ({ onClose, selectedRange }) => {
         </div>
 
         <div style={priceSection}>
-          <h5>Total price:</h5>
+          <h5>Total price: £{totalPrice}</h5>
         </div>
 
         <button className="reserveButton" onClick={onClose}>
