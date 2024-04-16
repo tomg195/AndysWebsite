@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { addDays, setDay } from "date-fns";
 import { DateRange } from "react-date-range";
 import BookingPopUp from "./BookingPopUp";
@@ -65,7 +65,9 @@ const BookingCalendar = () => {
           </button>
         )}
       </div>
-      {showPopUp && <BookingPopUp onClose={closePopUp} />}
+      {showPopUp && (
+        <BookingPopUp onClose={closePopUp} selectedRange={range[0]} />
+      )}
     </div>
   );
 };
