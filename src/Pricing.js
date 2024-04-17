@@ -3,6 +3,7 @@ export const calcTotalPrice = (peopleCount, petCount, numberOfDays) => {
   const additionalPricePerDay = 100;
   const additionalPricePerPersonUpTp7Days = 100;
   const additionalPricePerPersonAfter7Days = 15;
+  const additionalPricePerPet = 10;
 
   if (numberOfDays === 0) {
     return 0;
@@ -25,9 +26,11 @@ export const calcTotalPrice = (peopleCount, petCount, numberOfDays) => {
         additionalPricePerPersonAfter7Days *
         (peopleCount - 4) *
         additionalDaysAfter7;
-      // Here, after 7 days, the additional cost per person is 15 PER DAY
+      // Here, after 7 days, the additional cost per person is £15 PER DAY
     }
   }
+
+  totalPrice += additionalPricePerPet * petCount;
 
   return totalPrice;
 };

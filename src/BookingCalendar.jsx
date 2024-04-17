@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { addDays, setDay } from "date-fns";
 import { DateRange } from "react-date-range";
 import BookingPopUp from "./BookingPopUp";
+import BookingSummary from "./BookingSummary";
 
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
@@ -18,6 +19,7 @@ const BookingCalendar = () => {
 
   const [daysSelected, setDaysSelected] = useState(false);
   const [showPopUp, setShowPopUp] = useState(false);
+  const [showBookingSummary, setShowBookingSummary] = useState(false);
 
   // Function is triggered when user selects a date range. The item is the date range.
   const handleDaysSelect = (item) => {
@@ -31,6 +33,12 @@ const BookingCalendar = () => {
 
   const closePopUp = () => {
     setShowPopUp(false);
+    setShowBookingSummary(false);
+  };
+
+  const handleBookNow = () => {
+    setShowPopUp(false);
+    setShowBookingSummary(true);
   };
 
   useEffect(() => {
@@ -41,10 +49,6 @@ const BookingCalendar = () => {
       }
     }
   }, [daysSelected]);
-
-  useEffect(() => {
-    setShowPopUp(false);
-  }, []);
 
   return (
     <div className="calendarWrap">
@@ -58,6 +62,7 @@ const BookingCalendar = () => {
         direction="horizontal"
         minDate={new Date()}
       />
+
       <div>
         {daysSelected && (
           <button className="reserveButton" onClick={handleReserveClick}>
@@ -65,8 +70,17 @@ const BookingCalendar = () => {
           </button>
         )}
       </div>
+
       {showPopUp && (
-        <BookingPopUp onClose={closePopUp} selectedRange={range[0]} />
+        <BookingPopUp
+          onClose={closePopUp}
+          onBookNow={handleBookNow}
+          selectedRange={range[0]}
+        />
+      )}
+
+      {showBookingSummary && (
+        <BookingSummary onClose={closePopUp} selectedRange={range[0]} />
       )}
     </div>
   );
