@@ -143,6 +143,8 @@ body.popUp-open {
 .boxOption {
   height: 40px;
   width: 60px;
+  color: black;
+  background-color: white;
 }
 
 .numberStyle {
@@ -152,4 +154,30 @@ body.popUp-open {
 
 .priceSection {
   /* marginBottom: 1rem; */
+}
+
+.summaryPopUp {
+  position: fixed;
+  background-color: white;
+  height: 40rem;
+  width: 35rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contactDetails {
+  align-items: flex-start;
+}
+
+.contactBoxes {
+  padding: 1.5px;
+  font-size: 15px;
+  color: black;
+  background-color: white;
 }
