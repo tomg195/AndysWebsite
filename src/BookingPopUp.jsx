@@ -12,10 +12,12 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
   useEscapeKeyPress(onClose);
 
   useEffect(() => {
-    const days =
-      differenceInDays(selectedRange.endDate, selectedRange.startDate) + 1;
+    const nights = differenceInDays(
+      selectedRange.endDate,
+      selectedRange.startDate
+    );
 
-    const newTotalPrice = calcTotalPrice(people, pets, days);
+    const newTotalPrice = calcTotalPrice(people, pets, nights);
 
     setTotalPrice(newTotalPrice);
   }, [people, pets, selectedRange]);
