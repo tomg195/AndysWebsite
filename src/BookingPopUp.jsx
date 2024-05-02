@@ -9,6 +9,8 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
   const [pets, setPets] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
+  const [numberOfGuests, setnumberOfGuests] = useState(0);
+
   useEscapeKeyPress(onClose);
 
   useEffect(() => {
@@ -29,6 +31,7 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
   const handlePeopleChange = (event) => {
     const selectedPeopleCount = parseInt(event.target.value);
     setPeople(selectedPeopleCount);
+    setnumberOfGuests(selectedPeopleCount);
   };
 
   const handlePetsChange = (event) => {
@@ -86,6 +89,14 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
         <button className="reserveButton" onClick={onBookNow}>
           Continue
         </button>
+
+        {numberOfGuests > 0 && (
+          <BookingSummary
+            onClose={onClose}
+            selectedRange={selectedRange}
+            numberOfGuests={numberOfGuests}
+          />
+        )}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { format, differenceInDays } from "date-fns";
 import useEscapeKeyPress from "./useEscapeKeyPress";
 
-const BookingSummary = ({ onClose, selectedRange }) => {
+const BookingSummary = ({ onClose, numberOfPeople }) => {
   const [contactData, setContactData] = useState({
     title: "",
     firstname: "",
@@ -16,6 +16,14 @@ const BookingSummary = ({ onClose, selectedRange }) => {
     mobile: "",
   });
 
+  const [guestData, setGuestData] = useState([]);
+
+  useEffect(() => {
+    setGuestData(
+      new Array(numberOfPeople).fill({ firstname: "", lastname: "" })
+    );
+  }, [numberOfPeople]);
+
   useEscapeKeyPress(onClose);
 
   const handleInputChange = (e) => {
@@ -25,6 +33,13 @@ const BookingSummary = ({ onClose, selectedRange }) => {
 
   const handleTitleChange = (e) => {
     setContactData({ ...contactData, title: e.target.value });
+  };
+
+  const handleGuestInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const updatedGuestData = [...guestData];
+    updatedGuestData[index][name] = value;
+    setGuestData(updatedGuestData);
   };
 
   const inputFields = [
@@ -55,9 +70,7 @@ const BookingSummary = ({ onClose, selectedRange }) => {
             X
           </span>
         </div>
-
         <h5 className="contactDetails">Contact details</h5>
-
         <div className="contactForm">
           {inputFields.map((field, index) => (
             <React.Fragment key={index}>
@@ -91,6 +104,30 @@ const BookingSummary = ({ onClose, selectedRange }) => {
             </React.Fragment>
           ))}
         </div>
+        
+        {guestData.map((guest, index) => (
+          <div key={index}>
+            <h5 className="guestDetails">Guest {index + 1}</h5>
+            <div className="guestForm">
+              <input
+                className="guestBoxes"
+                type="text"
+                name="firstname"
+                placeholder="First Name*"
+                value={guest.firstname}
+                onChange={(e) => handleGuestInputChange(e, index)}
+              />
+              <input
+                className="guestBoxes"
+                type="text"
+                name="lastname"
+                placeholder="Last Name*"
+                value={guest.lastname}
+                onChange={(e) => handleGuestInputChange(e, index)}
+              />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
