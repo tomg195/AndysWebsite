@@ -114,14 +114,14 @@ body.popUp-open {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding-left: 17rem;
+  padding-left: 21rem;
 }
 
 .closeButton {
   cursor: pointer;
   font-weight: bold;
   font-size: 2rem;
-  padding-right: 10.5rem;
+  padding-right: 12rem;
   border-radius: 50%;
   color: rgb(154, 102, 102);
 }
@@ -159,7 +159,9 @@ body.popUp-open {
 .summaryPopUp {
   position: fixed;
   background-color: white;
-  height: 40rem;
+  /* height: 50rem; */
+  height: auto;
+  max-height: 85vh;
   width: 35rem;
   top: 50%;
   left: 50%;
@@ -169,10 +171,20 @@ body.popUp-open {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 2rem 1rem;
 }
 
 .contactDetails {
+  position: fixed;
+  margin-top: 7rem;
   align-items: flex-start;
+  /* background-color: aqua; */
+}
+
+.contactForm {
+  margin-top: 3rem;
 }
 
 .contactBoxes {
@@ -180,4 +192,9 @@ body.popUp-open {
   font-size: 15px;
   color: black;
   background-color: white;
+}
+
+.guestForm {
+  margin-top: -3.5rem;
+  margin-bottom: -2rem;
 }

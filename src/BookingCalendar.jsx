@@ -36,6 +36,10 @@ const BookingCalendar = () => {
     setShowBookingSummary(false);
   };
 
+  const handleBackButton = () => {
+    setShowBookingSummary(false);
+  };
+
   const handleBookNow = () => {
     setShowPopUp(false);
     setShowBookingSummary(true);

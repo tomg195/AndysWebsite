@@ -95,6 +95,7 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
             onClose={onClose}
             selectedRange={selectedRange}
             numberOfGuests={numberOfGuests}
+            onBack={handleBackButton}
           />
         )}
       </div>

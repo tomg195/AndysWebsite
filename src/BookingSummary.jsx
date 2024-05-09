@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { format, differenceInDays } from "date-fns";
 import useEscapeKeyPress from "./useEscapeKeyPress";
 
-const BookingSummary = ({ onClose, numberOfPeople }) => {
+const BookingSummary = ({ onClose, numberOfGuests }) => {
   const [contactData, setContactData] = useState({
     title: "",
     firstname: "",
@@ -20,9 +20,9 @@ const BookingSummary = ({ onClose, numberOfPeople }) => {
 
   useEffect(() => {
     setGuestData(
-      new Array(numberOfPeople).fill({ firstname: "", lastname: "" })
+      new Array(numberOfGuests).fill({ firstname: "", lastname: "" })
     );
-  }, [numberOfPeople]);
+  }, [numberOfGuests]);
 
   useEscapeKeyPress(onClose);
 
@@ -60,16 +60,26 @@ const BookingSummary = ({ onClose, numberOfPeople }) => {
     { name: "mobile", type: "tel", placeholder: "Mobile Number*" },
   ];
 
+  const handleBackButton = () => {
+    onBack();
+  };
+
+  // CHECK last GPT
+
   return (
     <div>
       <div className="popUpOverlay" onClick={onClose}></div>
       <div className="summaryPopUp">
         <div className="header">
+          <span className="closeButton" onClick={handleBackButton}>
+            back
+          </span>
           <h3>Your Booking</h3>
           <span className="closeButton" onClick={onClose}>
             X
           </span>
         </div>
+
         <h5 className="contactDetails">Contact details</h5>
         <div className="contactForm">
           {inputFields.map((field, index) => (
@@ -104,7 +114,7 @@ const BookingSummary = ({ onClose, numberOfPeople }) => {
             </React.Fragment>
           ))}
         </div>
-        
+
         {guestData.map((guest, index) => (
           <div key={index}>
             <h5 className="guestDetails">Guest {index + 1}</h5>
@@ -112,7 +122,7 @@ const BookingSummary = ({ onClose, numberOfPeople }) => {
               <input
                 className="guestBoxes"
                 type="text"
-                name="firstname"
+                name={`first${index}`}
                 placeholder="First Name*"
                 value={guest.firstname}
                 onChange={(e) => handleGuestInputChange(e, index)}
@@ -120,7 +130,7 @@ const BookingSummary = ({ onClose, numberOfPeople }) => {
               <input
                 className="guestBoxes"
                 type="text"
-                name="lastname"
+                name={`lastname${index}`}
                 placeholder="Last Name*"
                 value={guest.lastname}
                 onChange={(e) => handleGuestInputChange(e, index)}
