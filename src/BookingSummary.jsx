@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { format, differenceInDays } from "date-fns";
 import useEscapeKeyPress from "./useEscapeKeyPress";
 
-const BookingSummary = ({ onClose, numberOfGuests }) => {
+const BookingSummary = ({ onClose, numberOfGuests, onBack }) => {
   const [contactData, setContactData] = useState({
     title: "",
     firstname: "",
@@ -60,19 +60,13 @@ const BookingSummary = ({ onClose, numberOfGuests }) => {
     { name: "mobile", type: "tel", placeholder: "Mobile Number*" },
   ];
 
-  const handleBackButton = () => {
-    onBack();
-  };
-
-  // CHECK last GPT
-
   return (
     <div>
       <div className="popUpOverlay" onClick={onClose}></div>
       <div className="summaryPopUp">
         <div className="header">
-          <span className="closeButton" onClick={handleBackButton}>
-            back
+          <span className="closeButton" onClick={onBack}>
+            {/* back */}
           </span>
           <h3>Your Booking</h3>
           <span className="closeButton" onClick={onClose}>

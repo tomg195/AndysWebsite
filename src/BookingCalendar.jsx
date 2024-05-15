@@ -36,9 +36,10 @@ const BookingCalendar = () => {
     setShowBookingSummary(false);
   };
 
-  const handleBackButton = () => {
-    setShowBookingSummary(false);
-  };
+  // const handleBackButton = () => {
+  //   setShowBookingSummary(false);
+  //   console.log("Back button clicked");
+  // };
 
   const handleBookNow = () => {
     setShowPopUp(false);
@@ -84,7 +85,12 @@ const BookingCalendar = () => {
       )}
 
       {showBookingSummary && (
-        <BookingSummary onClose={closePopUp} selectedRange={range[0]} />
+        <BookingSummary
+          onClose={closePopUp}
+          selectedRange={range[0]}
+          // numberOfGuests={numberOfGuests}
+          // onBack={handleBackButton}
+        />
       )}
     </div>
   );

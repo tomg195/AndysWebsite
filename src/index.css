@@ -114,7 +114,13 @@ body.popUp-open {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding-left: 21rem;
+  padding-left: 15rem;
+}
+
+h3 {
+  background-color: aqua;
+  margin-right: 50px; /* Adjust the value as needed to shift it to the right */
+  /* font-size: 50%; */
 }
 
 .closeButton {
