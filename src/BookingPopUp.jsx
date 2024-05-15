@@ -43,8 +43,8 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
       <div className="popUpOverlay" onClick={onClose}></div>
       <div className="popUp">
         <div className="header">
-          <h3>Your Booking</h3>
-          <span className="closeButton" onClick={onClose}>
+          <h4>Your Booking</h4>
+          <span className="closeButton1" onClick={onClose}>
             X
           </span>
         </div>

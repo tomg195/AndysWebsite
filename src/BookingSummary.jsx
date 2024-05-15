@@ -65,8 +65,8 @@ const BookingSummary = ({ onClose, numberOfGuests, onBack }) => {
       <div className="popUpOverlay" onClick={onClose}></div>
       <div className="summaryPopUp">
         <div className="header">
-          <span className="closeButton" onClick={onBack}>
-            {/* back */}
+          <span className="backButton" onClick={onBack}>
+            ↩
           </span>
           <h3>Your Booking</h3>
           <span className="closeButton" onClick={onClose}>
@@ -75,6 +75,7 @@ const BookingSummary = ({ onClose, numberOfGuests, onBack }) => {
         </div>
 
         <h5 className="contactDetails">Contact details</h5>
+
         <div className="contactForm">
           {inputFields.map((field, index) => (
             <React.Fragment key={index}>
@@ -132,6 +133,7 @@ const BookingSummary = ({ onClose, numberOfGuests, onBack }) => {
             </div>
           </div>
         ))}
+        <div className="toPaymentButton">Continue to payment</div>
       </div>
     </div>
   );

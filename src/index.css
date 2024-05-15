@@ -109,25 +109,47 @@ body.popUp-open {
   overflow: hidden;
 } */
 
+.closeButton1 {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 2rem;
+  margin-right: 20px;
+  color: rgb(154, 102, 102);
+}
+
+h4 {
+  white-space: nowrap;
+  font-size: 35px;
+  margin-left: 8rem;
+}
+
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding-left: 15rem;
+  /* padding-left: 15rem; */
+}
+
+.backButton {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 2rem;
+  color: rgb(154, 102, 102);
+  margin-left: 2rem;
 }
 
 h3 {
-  background-color: aqua;
-  margin-right: 50px; /* Adjust the value as needed to shift it to the right */
-  /* font-size: 50%; */
+  flex: 1;
+  position: fixed;
+  margin-left: 11rem;
 }
 
 .closeButton {
   cursor: pointer;
   font-weight: bold;
   font-size: 2rem;
-  padding-right: 12rem;
+  margin-right: 2rem;
   border-radius: 50%;
   color: rgb(154, 102, 102);
 }
@@ -184,13 +206,12 @@ h3 {
 
 .contactDetails {
   position: fixed;
-  margin-top: 7rem;
+  margin-top: 5rem;
   align-items: flex-start;
-  /* background-color: aqua; */
 }
 
 .contactForm {
-  margin-top: 3rem;
+  margin-top: 5rem;
 }
 
 .contactBoxes {
@@ -203,4 +224,16 @@ h3 {
 .guestForm {
   margin-top: -3.5rem;
   margin-bottom: -2rem;
+}
+
+.toPaymentButton {
+  height: 6rem;
+  width: 10rem;
+  background-color: rgb(154, 102, 102);
+  cursor: pointer;
+  color: white;
+  font-size: 22px;
+  font-family: Bell MT, sans-serif;
+  border-radius: 10px;
+  margin-top: 5rem;
 }
