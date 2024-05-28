@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { format, differenceInDays } from "date-fns";
 import useEscapeKeyPress from "./useEscapeKeyPress";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const BookingSummary = ({ onClose, numberOfGuests, onBack }) => {
   const [contactData, setContactData] = useState({
@@ -17,6 +17,15 @@ const BookingSummary = ({ onClose, numberOfGuests, onBack }) => {
   });
 
   const [guestData, setGuestData] = useState([]);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { selectedRange, people, pets, totalPrice } = location.state || {
+    selectedRange: { startDate: null, endDate: null },
+    people: 0,
+    pets: 0,
+    totalPrice: 0,
+  };
 
   useEffect(() => {
     setGuestData(
@@ -40,6 +49,17 @@ const BookingSummary = ({ onClose, numberOfGuests, onBack }) => {
     const updatedGuestData = [...guestData];
     updatedGuestData[index][name] = value;
     setGuestData(updatedGuestData);
+  };
+
+  const handleContinueToPayment = () => {
+    navigate("/checkout", {
+      state: {
+        selectedRange,
+        people,
+        pets,
+        totalPrice,
+      },
+    });
   };
 
   const inputFields = [
@@ -133,7 +153,9 @@ const BookingSummary = ({ onClose, numberOfGuests, onBack }) => {
             </div>
           </div>
         ))}
-        <div className="toPaymentButton">Continue to payment</div>
+        <button className="toPaymentButton" onClick={handleContinueToPayment}>
+          Continue to payment
+        </button>
       </div>
     </div>
   );

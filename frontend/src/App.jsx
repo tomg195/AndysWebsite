@@ -1,8 +1,12 @@
 import { useState } from "react";
-import ImageSlider from "./ImageSlider";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import BookingPopUp from "./BookingPopUp";
+import BookingSummary from "./BookingSummary";
+import CheckoutConfirmation from "./CheckoutConfirmation";
 import BookingCalendar from "./BookingCalendar";
+import ImageSlider from "./ImageSlider";
 
-function App() {
+function HomePage({ unavailableDates }) {
   const images = [
     { url: "/IMG1.jpg" },
     { url: "/IMG2.jpg" },
@@ -36,9 +40,37 @@ function App() {
       <h2>Pick your days:</h2>
 
       <div>
-        <BookingCalendar />
+        <BookingCalendar unavailableDates={unavailableDates} />
       </div>
     </div>
+  );
+}
+
+function App() {
+  const [unavailableDates, setUnavailableDates] = useState([]);
+
+  const updateUnavailableDates = (newRange) => {
+    setUnavailableDates((prevDates) => [...prevDates, newRange]);
+  };
+
+  return (
+    <Router>
+      <Routes>
+        <Route
+          path="/checkout"
+          element={
+            <CheckoutConfirmation
+              updateUnavailableDates={updateUnavailableDates}
+            />
+          }
+        />
+        <Route path="/book" element={<BookingSummary />} />
+        <Route
+          path="/"
+          element={<HomePage unavailableDates={unavailableDates} />}
+        />
+      </Routes>
+    </Router>
   );
 }
 

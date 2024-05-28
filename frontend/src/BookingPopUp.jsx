@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { format, differenceInDays } from "date-fns";
 import { calcTotalPrice } from "./Pricing.js";
-import BookingSummary from "./BookingSummary";
 import useEscapeKeyPress from "./useEscapeKeyPress";
+import { useNavigate } from "react-router-dom";
 
 const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
   const [people, setPeople] = useState(0);
   const [pets, setPets] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-
-  const [numberOfGuests, setnumberOfGuests] = useState(0);
+  const navigate = useNavigate();
 
   useEscapeKeyPress(onClose);
 
@@ -31,11 +30,21 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
   const handlePeopleChange = (event) => {
     const selectedPeopleCount = parseInt(event.target.value);
     setPeople(selectedPeopleCount);
-    setnumberOfGuests(selectedPeopleCount);
   };
 
   const handlePetsChange = (event) => {
     setPets(parseInt(event.target.value));
+  };
+
+  const handleBookNow = () => {
+    navigate("/checkout", {
+      state: {
+        selectedRange,
+        people,
+        pets,
+        totalPrice,
+      },
+    });
   };
 
   return (
@@ -86,18 +95,9 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
           <h5>Total price: £{totalPrice}</h5>
         </div>
 
-        <button className="reserveButton" onClick={onBookNow}>
+        <button className="reserveButton" onClick={handleBookNow}>
           Continue
         </button>
-
-        {numberOfGuests > 0 && (
-          <BookingSummary
-            onClose={onClose}
-            selectedRange={selectedRange}
-            numberOfGuests={numberOfGuests}
-            // onBack={handleBackButton}
-          />
-        )}
       </div>
     </div>
   );
