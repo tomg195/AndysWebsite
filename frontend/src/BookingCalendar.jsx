@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { addDays, isWithinInterval } from "date-fns";
+import { addDays } from "date-fns";
 import { DateRange } from "react-date-range";
 import BookingPopUp from "./BookingPopUp";
 
@@ -42,10 +42,16 @@ const BookingCalendar = ({ unavailableDates }) => {
     }
   }, [daysSelected]);
 
-  const isDateUnavailable = (date) => {
-    return unavailableDates.some((range) =>
-      isWithinInterval(date, { start: range.startDate, end: range.endDate })
-    );
+  const getDisabledDates = () => {
+    return unavailableDates.flatMap((range) => {
+      const dates = [];
+      let currentDate = new Date(range.startDate);
+      while (currentDate <= range.endDate) {
+        dates.push(new Date(currentDate));
+        currentDate = addDays(currentDate, 1);
+      }
+      return dates;
+    });
   };
 
   return (
@@ -59,15 +65,7 @@ const BookingCalendar = ({ unavailableDates }) => {
         className="calendarElement"
         direction="horizontal"
         minDate={new Date()}
-        disabledDates={unavailableDates.flatMap((range) => {
-          const dates = [];
-          let currentDate = new Date(range.startDate);
-          while (currentDate <= range.endDate) {
-            dates.push(new Date(currentDate));
-            currentDate = addDays(currentDate, 1);
-          }
-          return dates;
-        })}
+        disabledDates={getDisabledDates()}
       />
 
       <div>
