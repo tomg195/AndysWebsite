@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { addDays } from "date-fns";
 import { DateRange } from "react-date-range";
+import { DateRangePicker } from "react-date-range";
 import BookingPopUp from "./BookingPopUp";
 
-import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 
 const BookingCalendar = ({ unavailableDates }) => {
