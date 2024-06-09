@@ -37,7 +37,7 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
   };
 
   const handleBookNow = () => {
-    navigate("/checkout", {
+    navigate("/book", {
       state: {
         selectedRange,
         people,

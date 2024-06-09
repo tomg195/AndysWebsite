@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import BookingPopUp from "./BookingPopUp";
 import BookingSummary from "./BookingSummary";
 import CheckoutConfirmation from "./CheckoutConfirmation";
 import BookingCalendar from "./BookingCalendar";
