@@ -1,7 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
-import "./App.css";
 
 const CheckoutConfirmation = ({ updateUnavailableDates }) => {
   const location = useLocation();
@@ -22,10 +21,6 @@ const CheckoutConfirmation = ({ updateUnavailableDates }) => {
     navigate("/");
   };
 
-  if (!selectedRange || !selectedRange.startDate || !selectedRange.endDate) {
-    return <div>Error: Missing booking information.</div>;
-  }
-
   return (
     <div className="checkout-confirmation">
       <h4>Checkout Confirmation</h4>
@@ -38,6 +33,8 @@ const CheckoutConfirmation = ({ updateUnavailableDates }) => {
         <p>Pets: {pets}</p>
         <p>Total Price: £{totalPrice}</p>
       </div>
+      Note: Please ONLY click 'Confirm booking' when you have transferred the
+      above amount to Andy
       <button className="proceed-button" onClick={handleConfirmBooking}>
         Confirm booking
       </button>

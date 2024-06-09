@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import BookingPopUp from "./BookingPopUp";
+// import BookingPopUp from "./BookingPopUp";
 import BookingSummary from "./BookingSummary";
 import CheckoutConfirmation from "./CheckoutConfirmation";
 import BookingCalendar from "./BookingCalendar";
@@ -32,11 +32,9 @@ function HomePage({ unavailableDates }) {
       <div className="banner">
         <h1>Andy's holiday home</h1>
       </div>
-
       <div style={containerStyles}>
         <ImageSlider images={images} />
       </div>
-
       <h2>Pick your days:</h2>
 
       <div>
@@ -57,17 +55,19 @@ function App() {
     <Router>
       <Routes>
         <Route
+          path="/"
+          element={<HomePage unavailableDates={unavailableDates} />}
+        />
+
+        <Route path="/book" element={<BookingSummary />} />
+
+        <Route
           path="/checkout"
           element={
             <CheckoutConfirmation
               updateUnavailableDates={updateUnavailableDates}
             />
           }
-        />
-        <Route path="/book" element={<BookingSummary />} />
-        <Route
-          path="/"
-          element={<HomePage unavailableDates={unavailableDates} />}
         />
       </Routes>
     </Router>

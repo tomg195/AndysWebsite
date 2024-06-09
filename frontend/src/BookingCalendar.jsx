@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { addDays } from "date-fns";
 import { DateRange } from "react-date-range";
-import { DateRangePicker } from "react-date-range";
 import BookingPopUp from "./BookingPopUp";
 
 import "react-date-range/dist/styles.css"; // main css file
