@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { addDays } from "date-fns";
 import { DateRange } from "react-date-range";
 import BookingPopUp from "./BookingPopUp";
+import axios from "axios";
 
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
@@ -19,14 +20,34 @@ const BookingCalendar = ({ unavailableDates }) => {
   const [daysSelected, setDaysSelected] = useState(false);
   const [showPopUp, setShowPopUp] = useState(false);
 
+  const apiURL = import.meta.env.VITE_API_URL;
+  // console.log("API URL:", apiURL); // Should print /api
+
   // Function is triggered when user selects a date range. The item is the date range.
   const handleDaysSelect = (item) => {
     setRange([item.selection]); // updates selected range in state
     setDaysSelected(item.selection.startDate && item.selection.endDate); // Set daysSelected based on whether startDate and endDate are selected
   };
 
-  const handleReserveClick = () => {
-    setShowPopUp(true);
+  const handleReserveClick = async () => {
+    try {
+      await axios.post(`${apiURL}/unavailable-dates`, {
+        startDate: range[0].startDate,
+        endDate: range[0].endDate,
+      });
+      setShowPopUp(true);
+    } catch (error) {
+      console.error("Error reserving dates:", error);
+    }
+  };
+
+  const handleResetDates = async () => {
+    try {
+      await axios.delete(`${apiURL}/unavailable-dates`);
+      window.location.reload(); // Refresh the page to fetch updated dates
+    } catch (error) {
+      console.error("Error resetting dates:", error);
+    }
   };
 
   const closePopUp = () => {
@@ -43,15 +64,22 @@ const BookingCalendar = ({ unavailableDates }) => {
   }, [daysSelected]);
 
   const getDisabledDates = () => {
-    return unavailableDates.flatMap((range) => {
-      const dates = [];
-      let currentDate = new Date(range.startDate);
-      while (currentDate <= range.endDate) {
-        dates.push(new Date(currentDate));
-        currentDate = addDays(currentDate, 1);
-      }
-      return dates;
-    });
+    if (!Array.isArray(unavailableDates)) {
+      console.error("unavailableDates is not an array:", unavailableDates);
+      return [];
+    }
+
+    return unavailableDates
+      .map((range) => {
+        const dates = [];
+        let currentDate = new Date(range.startDate);
+        while (currentDate <= new Date(range.endDate)) {
+          dates.push(new Date(currentDate));
+          currentDate = addDays(currentDate, 1);
+        }
+        return dates;
+      })
+      .flat();
   };
 
   return (
@@ -74,8 +102,10 @@ const BookingCalendar = ({ unavailableDates }) => {
             Reserve
           </button>
         )}
+        <button className="resetButton" onClick={handleResetDates}>
+          Reset Dates
+        </button>
       </div>
-
       {showPopUp && (
         <BookingPopUp onClose={closePopUp} selectedRange={range[0]} />
       )}

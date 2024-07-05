@@ -43,6 +43,7 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
         people,
         pets,
         totalPrice,
+        numberOfGuests: people,
       },
     });
   };

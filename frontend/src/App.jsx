@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import BookingSummary from "./BookingSummary";
 import CheckoutConfirmation from "./CheckoutConfirmation";
@@ -46,6 +46,24 @@ function HomePage({ unavailableDates }) {
 function App() {
   const [unavailableDates, setUnavailableDates] = useState([]);
 
+  useEffect(() => {
+    const fetchUnavailableDates = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/unavailable-dates");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Fetched unavailable dates:", data);
+        setUnavailableDates(data);
+      } catch (error) {
+        console.error("Error fetching unavailable dates:", error);
+      }
+    };
+
+    fetchUnavailableDates();
+  }, []);
+
   const updateUnavailableDates = (newRange) => {
     setUnavailableDates((prevDates) => [...prevDates, newRange]);
   };
@@ -57,9 +75,7 @@ function App() {
           path="/"
           element={<HomePage unavailableDates={unavailableDates} />}
         />
-
         <Route path="/book" element={<BookingSummary />} />
-
         <Route
           path="/checkout"
           element={

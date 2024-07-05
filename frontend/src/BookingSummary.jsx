@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useEscapeKeyPress from "./useEscapeKeyPress";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const BookingSummary = ({ onClose, numberOfGuests, onBack }) => {
+const BookingSummary = ({ onClose, onBack }) => {
   const [contactData, setContactData] = useState({
     title: "",
     firstname: "",
@@ -20,12 +20,14 @@ const BookingSummary = ({ onClose, numberOfGuests, onBack }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { selectedRange, people, pets, totalPrice } = location.state || {
-    selectedRange: { startDate: null, endDate: null },
-    people: 0,
-    pets: 0,
-    totalPrice: 0,
-  };
+  const { selectedRange, people, pets, totalPrice, numberOfGuests } =
+    location.state || {
+      selectedRange: { startDate: null, endDate: null },
+      people: 0,
+      pets: 0,
+      totalPrice: 0,
+      numberOfGuests: 0,
+    };
 
   useEffect(() => {
     setGuestData(
