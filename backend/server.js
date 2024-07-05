@@ -18,8 +18,8 @@ mongoose.connect("mongodb://localhost:27017/booking", {
 });
 
 const dateSchema = new mongoose.Schema({
-  startDate: Date,
-  endDate: Date,
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true },
 });
 
 const UnavailableDate = mongoose.model("UnavailableDate", dateSchema);
@@ -32,7 +32,10 @@ app.get("/unavailable-dates", async (req, res) => {
 
 app.post("/unavailable-dates", async (req, res) => {
   const { startDate, endDate } = req.body;
-  const newDate = new UnavailableDate({ startDate, endDate });
+  const newDate = new UnavailableDate({
+    startDate: new Date(startDate).toISOString(),
+    endDate: new Date(endDate).toISOString(),
+  });
   await newDate.save();
   res.json(newDate);
 });
@@ -44,9 +47,13 @@ app.delete("/unavailable-dates", async (req, res) => {
 
   if (token === process.env.ADMIN_TOKEN) {
     const { startDate, endDate } = req.body;
+
+    const start = new Date(startDate).setUTCHours(0, 0, 0, 0);
+    const end = new Date(endDate).setUTCHours(23, 59, 59, 999);
+
     await UnavailableDate.deleteMany({
-      startDate: { $gte: new Date(startDate) },
-      endDate: { $lte: new Date(endDate) },
+      startDate: { $gte: new Date(start) },
+      endDate: { $lte: new Date(end) },
     });
     res.json({ message: "Date range removed" });
   } else {

@@ -14,7 +14,6 @@ function App() {
         "http://localhost:5000/unavailable-dates"
       );
       const data = response.data;
-      console.log("Fetched unavailable dates:", data);
       setUnavailableDates(data);
     } catch (error) {
       console.error("Error fetching unavailable dates:", error);

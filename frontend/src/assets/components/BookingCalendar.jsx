@@ -29,8 +29,8 @@ const BookingCalendar = ({ unavailableDates }) => {
   const handleReserveClick = async () => {
     try {
       await axios.post(`${apiURL}/unavailable-dates`, {
-        startDate: range[0].startDate,
-        endDate: range[0].endDate,
+        startDate: range[0].startDate.toISOString(),
+        endDate: range[0].endDate.toISOString(),
       });
       setShowPopUp(true);
     } catch (error) {

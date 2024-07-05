@@ -10,7 +10,7 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
   const [endDateToDelete, setEndDateToDelete] = useState("");
 
   const apiURL = import.meta.env.VITE_API_URL;
-  const adminToken = "token"; // Replace with your actual admin token
+  const adminToken = "your_secure_token"; // Ensure this matches the token in your backend .env file
 
   const images = [
     { url: "/IMG1.jpg" },
@@ -39,8 +39,8 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
           Authorization: `Bearer ${adminToken}`,
         },
         data: {
-          startDate: startDateToDelete,
-          endDate: endDateToDelete,
+          startDate: new Date(startDateToDelete).toISOString(),
+          endDate: new Date(endDateToDelete).toISOString(),
         },
       });
       console.log(response.data); // Check the response from the server
