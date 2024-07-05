@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -36,16 +37,21 @@ app.post("/unavailable-dates", async (req, res) => {
   res.json(newDate);
 });
 
-app.delete("/unavailable-dates/:id", async (req, res) => {
-  const { id } = req.params;
-  await UnavailableDate.findByIdAndDelete(id);
-  res.json({ message: "Date removed" });
-});
-
-// Endpoint to clear all unavailable dates
+// Delete a specific date range
 app.delete("/unavailable-dates", async (req, res) => {
-  await UnavailableDate.deleteMany({});
-  res.json({ message: "All unavailable dates cleared" });
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1]; // 'Bearer TOKEN_HERE'
+
+  if (token === process.env.ADMIN_TOKEN) {
+    const { startDate, endDate } = req.body;
+    await UnavailableDate.deleteMany({
+      startDate: { $gte: new Date(startDate) },
+      endDate: { $lte: new Date(endDate) },
+    });
+    res.json({ message: "Date range removed" });
+  } else {
+    res.status(403).json({ message: "Unauthorized" });
+  }
 });
 
 app.listen(port, () => {
