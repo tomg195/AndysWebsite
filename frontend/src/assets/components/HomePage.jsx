@@ -4,13 +4,12 @@ import ImageSlider from "./ImageSlider";
 import axios from "axios";
 
 function HomePage({ unavailableDates, setUnavailableDates }) {
-  const [isAdmin, setIsAdmin] = useState(false);
   const [password, setPassword] = useState("");
+  const [passwordVerified, setPasswordVerified] = useState(false);
   const [startDateToDelete, setStartDateToDelete] = useState("");
   const [endDateToDelete, setEndDateToDelete] = useState("");
 
   const apiURL = import.meta.env.VITE_API_URL;
-  const adminToken = "your_secure_token"; // Ensure this matches the token in your backend .env file
 
   const images = [
     { url: "/IMG1.jpg" },
@@ -35,10 +34,8 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
   const handleDeleteSpecificDate = async () => {
     try {
       const response = await axios.delete(`${apiURL}/unavailable-dates`, {
-        headers: {
-          Authorization: `Bearer ${adminToken}`,
-        },
         data: {
+          password,
           startDate: new Date(startDateToDelete).toISOString(),
           endDate: new Date(endDateToDelete).toISOString(),
         },
@@ -67,7 +64,7 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
 
   const checkPassword = () => {
     if (password === "123") {
-      setIsAdmin(true);
+      setPasswordVerified(true);
     } else {
       alert("Incorrect password");
     }
@@ -89,7 +86,7 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
         className="admin-login"
         style={{ position: "absolute", top: "10px", right: "10px" }}
       >
-        {isAdmin ? (
+        {passwordVerified ? (
           <div>
             <input
               type="date"
@@ -111,11 +108,11 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
           <div>
             <input
               type="password"
-              placeholder="Admin Password"
+              placeholder="Admin password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={checkPassword}>Login as Admin</button>
+            <button onClick={checkPassword}>Login</button>
           </div>
         )}
       </div>

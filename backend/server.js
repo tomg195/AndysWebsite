@@ -40,24 +40,28 @@ app.post("/unavailable-dates", async (req, res) => {
   res.json(newDate);
 });
 
-// Delete a specific date range
+// Delete specific date ranges including partial overlaps
 app.delete("/unavailable-dates", async (req, res) => {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(" ")[1]; // 'Bearer TOKEN_HERE'
+  const { password, startDate, endDate } = req.body;
 
-  if (token === process.env.ADMIN_TOKEN) {
-    const { startDate, endDate } = req.body;
-
+  if (password === process.env.DELETE_PASSWORD) {
     const start = new Date(startDate).setUTCHours(0, 0, 0, 0);
     const end = new Date(endDate).setUTCHours(23, 59, 59, 999);
 
+    // Find and delete dates that overlap with the specified range
     await UnavailableDate.deleteMany({
-      startDate: { $gte: new Date(start) },
-      endDate: { $lte: new Date(end) },
+      $or: [
+        { startDate: { $gte: new Date(start), $lte: new Date(end) } },
+        { endDate: { $gte: new Date(start), $lte: new Date(end) } },
+        {
+          startDate: { $lte: new Date(start) },
+          endDate: { $gte: new Date(end) },
+        },
+      ],
     });
     res.json({ message: "Date range removed" });
   } else {
-    res.status(403).json({ message: "Unauthorized" });
+    res.status(403).json({ message: "Incorrect password" });
   }
 });
 
