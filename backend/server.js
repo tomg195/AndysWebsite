@@ -27,20 +27,24 @@ const UnavailableDate = mongoose.model("UnavailableDate", dateSchema);
 // API Routes
 app.get("/unavailable-dates", async (req, res) => {
   const dates = await UnavailableDate.find();
-  res.json(dates);
+  res.json(
+    dates.map((date) => ({
+      startDate: date.startDate.toISOString().split("T")[0],
+      endDate: date.endDate.toISOString().split("T")[0],
+    }))
+  );
 });
 
 app.post("/unavailable-dates", async (req, res) => {
   const { startDate, endDate } = req.body;
   const newDate = new UnavailableDate({
-    startDate: new Date(startDate).toISOString(),
-    endDate: new Date(endDate).toISOString(),
+    startDate: new Date(startDate).setUTCHours(0, 0, 0, 0),
+    endDate: new Date(endDate).setUTCHours(23, 59, 59, 999),
   });
   await newDate.save();
   res.json(newDate);
 });
 
-// Delete specific date ranges including partial overlaps
 app.delete("/unavailable-dates", async (req, res) => {
   const { password, startDate, endDate } = req.body;
 
@@ -48,7 +52,6 @@ app.delete("/unavailable-dates", async (req, res) => {
     const start = new Date(startDate).setUTCHours(0, 0, 0, 0);
     const end = new Date(endDate).setUTCHours(23, 59, 59, 999);
 
-    // Find and delete dates that overlap with the specified range
     await UnavailableDate.deleteMany({
       $or: [
         { startDate: { $gte: new Date(start), $lte: new Date(end) } },

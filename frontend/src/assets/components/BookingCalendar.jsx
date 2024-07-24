@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { addDays } from "date-fns";
+import { addDays, startOfDay, endOfDay } from "date-fns";
 import { DateRange } from "react-date-range";
 import BookingPopUp from "./BookingPopUp";
 import axios from "axios";
 
-import "react-date-range/dist/styles.css"; // main css file
-import "react-date-range/dist/theme/default.css"; // theme css file
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
 const BookingCalendar = ({ unavailableDates }) => {
   const [range, setRange] = useState([
     {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 7),
+      startDate: startOfDay(new Date()),
+      endDate: endOfDay(addDays(new Date(), 7)),
       key: "selection",
     },
   ]);
@@ -22,8 +22,17 @@ const BookingCalendar = ({ unavailableDates }) => {
   const apiURL = import.meta.env.VITE_API_URL;
 
   const handleDaysSelect = (item) => {
-    setRange([item.selection]);
-    setDaysSelected(item.selection.startDate && item.selection.endDate);
+    const startDate = startOfDay(new Date(item.selection.startDate));
+    const endDate = endOfDay(new Date(item.selection.endDate));
+
+    setRange([
+      {
+        startDate,
+        endDate,
+        key: "selection",
+      },
+    ]);
+    setDaysSelected(startDate && endDate);
   };
 
   const handleReserveClick = async () => {
