@@ -1,11 +1,13 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
+import axios from "axios";
 
 const CheckoutConfirmation = ({ updateUnavailableDates }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { selectedRange, people, pets, totalPrice } = location.state || {};
+  const apiURL = import.meta.env.VITE_API_URL;
 
   const formatDate = (date) => {
     try {
@@ -16,9 +18,17 @@ const CheckoutConfirmation = ({ updateUnavailableDates }) => {
     }
   };
 
-  const handleConfirmBooking = () => {
-    updateUnavailableDates(selectedRange);
-    navigate("/");
+  const handleConfirmBooking = async () => {
+    try {
+      await axios.post(`${apiURL}/unavailable-dates`, {
+        startDate: selectedRange.startDate.toISOString(),
+        endDate: selectedRange.endDate.toISOString(),
+      });
+      updateUnavailableDates(selectedRange); // Assuming this updates the state in a parent component or context
+      navigate("/");
+    } catch (error) {
+      console.error("Error confirming booking:", error);
+    }
   };
 
   return (

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { addDays, startOfDay, endOfDay } from "date-fns";
 import { DateRange } from "react-date-range";
 import BookingPopUp from "./BookingPopUp";
-import axios from "axios";
-
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
@@ -19,8 +17,6 @@ const BookingCalendar = ({ unavailableDates }) => {
   const [daysSelected, setDaysSelected] = useState(false);
   const [showPopUp, setShowPopUp] = useState(false);
 
-  const apiURL = import.meta.env.VITE_API_URL;
-
   const handleDaysSelect = (item) => {
     const startDate = startOfDay(new Date(item.selection.startDate));
     const endDate = endOfDay(new Date(item.selection.endDate));
@@ -35,16 +31,8 @@ const BookingCalendar = ({ unavailableDates }) => {
     setDaysSelected(startDate && endDate);
   };
 
-  const handleReserveClick = async () => {
-    try {
-      await axios.post(`${apiURL}/unavailable-dates`, {
-        startDate: range[0].startDate.toISOString(),
-        endDate: range[0].endDate.toISOString(),
-      });
-      setShowPopUp(true);
-    } catch (error) {
-      console.error("Error reserving dates:", error);
-    }
+  const handleReserveClick = () => {
+    setShowPopUp(true);
   };
 
   const closePopUp = () => {
