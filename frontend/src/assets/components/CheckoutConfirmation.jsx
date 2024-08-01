@@ -20,9 +20,13 @@ const CheckoutConfirmation = ({ updateUnavailableDates }) => {
 
   const handleConfirmBooking = async () => {
     try {
+      // Ensure dates are handled in local time without time conversion
+      const startDate = format(new Date(selectedRange.startDate), "yyyy-MM-dd");
+      const endDate = format(new Date(selectedRange.endDate), "yyyy-MM-dd");
+
       await axios.post(`${apiURL}/unavailable-dates`, {
-        startDate: selectedRange.startDate.toISOString(),
-        endDate: selectedRange.endDate.toISOString(),
+        startDate: `${startDate}T00:00:00.000Z`,
+        endDate: `${endDate}T23:59:59.999Z`,
       });
       updateUnavailableDates(selectedRange); // Assuming this updates the state in a parent component or context
       navigate("/");
@@ -36,8 +40,8 @@ const CheckoutConfirmation = ({ updateUnavailableDates }) => {
       <h4>Checkout Confirmation</h4>
       <div className="checkout-details">
         <p>
-          Dates: {formatDate(selectedRange.startDate)} -{" "}
-          {formatDate(selectedRange.endDate)}
+          Dates: {formatDate(new Date(selectedRange.startDate))} -{" "}
+          {formatDate(new Date(selectedRange.endDate))}
         </p>
         <p>People: {people}</p>
         <p>Pets: {pets}</p>

@@ -36,8 +36,12 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
       const response = await axios.delete(`${apiURL}/unavailable-dates`, {
         data: {
           password,
-          startDate: new Date(startDateToDelete).toISOString(),
-          endDate: new Date(endDateToDelete).toISOString(),
+          startDate: `${
+            new Date(startDateToDelete).toISOString().split("T")[0]
+          }T00:00:00.000Z`,
+          endDate: `${
+            new Date(endDateToDelete).toISOString().split("T")[0]
+          }T23:59:59.999Z`,
         },
       });
       console.log(response.data); // Check the response from the server
