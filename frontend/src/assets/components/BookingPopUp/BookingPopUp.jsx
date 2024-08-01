@@ -8,6 +8,7 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
   const [people, setPeople] = useState(0);
   const [pets, setPets] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   useEscapeKeyPress(onClose);
@@ -30,6 +31,9 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
   const handlePeopleChange = (event) => {
     const selectedPeopleCount = parseInt(event.target.value);
     setPeople(selectedPeopleCount);
+    if (selectedPeopleCount > 0) {
+      setErrorMessage("");
+    }
   };
 
   const handlePetsChange = (event) => {
@@ -37,15 +41,19 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
   };
 
   const handleBookNow = () => {
-    navigate("/book", {
-      state: {
-        selectedRange,
-        people,
-        pets,
-        totalPrice,
-        numberOfGuests: people,
-      },
-    });
+    if (people > 0) {
+      navigate("/book", {
+        state: {
+          selectedRange,
+          people,
+          pets,
+          totalPrice,
+          numberOfGuests: people,
+        },
+      });
+    } else {
+      setErrorMessage("Please select total number of people");
+    }
   };
 
   return (
@@ -91,6 +99,12 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
             ))}
           </select>
         </div>
+
+        {errorMessage && (
+          <p style={{ color: "red", fontSize: "small", margin: "2px 0 0 0" }}>
+            {errorMessage}
+          </p>
+        )}
 
         <div className="priceSection">
           <h5>Total price: £{totalPrice}</h5>
