@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useEscapeKeyPress from "../../../useEscapeKeyPress";
 import { useNavigate, useLocation } from "react-router-dom";
+import "./BookingSummary.css";
 
 const BookingSummary = ({ onClose, onBack }) => {
   const [contactData, setContactData] = useState({
