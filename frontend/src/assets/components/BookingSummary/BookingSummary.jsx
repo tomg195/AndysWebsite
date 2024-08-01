@@ -17,6 +17,7 @@ const BookingSummary = ({ onClose, onBack }) => {
   });
 
   const [guestData, setGuestData] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -30,9 +31,14 @@ const BookingSummary = ({ onClose, onBack }) => {
     };
 
   useEffect(() => {
-    setGuestData(
-      new Array(numberOfGuests).fill({ firstname: "", lastname: "" })
-    );
+    if (numberOfGuests > 0) {
+      setGuestData(
+        Array.from({ length: numberOfGuests }, () => ({
+          firstname: "",
+          lastname: "",
+        }))
+      );
+    }
   }, [numberOfGuests]);
 
   useEscapeKeyPress(onClose);
@@ -49,19 +55,33 @@ const BookingSummary = ({ onClose, onBack }) => {
   const handleGuestInputChange = (e, index) => {
     const { name, value } = e.target;
     const updatedGuestData = [...guestData];
-    updatedGuestData[index][name] = value;
+    updatedGuestData[index] = { ...updatedGuestData[index], [name]: value };
     setGuestData(updatedGuestData);
   };
 
   const handleContinueToPayment = () => {
-    navigate("/checkout", {
-      state: {
-        selectedRange,
-        people,
-        pets,
-        totalPrice,
-      },
-    });
+    const isContactDataValid = inputFields.every(
+      (field) =>
+        !field.placeholder.endsWith("*") ||
+        contactData[field.name].trim() !== ""
+    );
+
+    const areGuestsValid = guestData.every(
+      (guest) => guest.firstname.trim() !== "" && guest.lastname.trim() !== ""
+    );
+
+    if (isContactDataValid && areGuestsValid) {
+      navigate("/checkout", {
+        state: {
+          selectedRange,
+          people,
+          pets,
+          totalPrice,
+        },
+      });
+    } else {
+      setErrorMessage("Please fill out all areas of the form");
+    }
   };
 
   const inputFields = [
@@ -139,7 +159,7 @@ const BookingSummary = ({ onClose, onBack }) => {
               <input
                 className="guestBoxes"
                 type="text"
-                name={`first${index}`}
+                name="firstname"
                 placeholder="First Name*"
                 value={guest.firstname}
                 onChange={(e) => handleGuestInputChange(e, index)}
@@ -147,7 +167,7 @@ const BookingSummary = ({ onClose, onBack }) => {
               <input
                 className="guestBoxes"
                 type="text"
-                name={`lastname${index}`}
+                name="lastname"
                 placeholder="Last Name*"
                 value={guest.lastname}
                 onChange={(e) => handleGuestInputChange(e, index)}
@@ -155,6 +175,13 @@ const BookingSummary = ({ onClose, onBack }) => {
             </div>
           </div>
         ))}
+
+        {errorMessage && (
+          <p style={{ color: "red", fontSize: "small", margin: "5px 0 0 0" }}>
+            {errorMessage}
+          </p>
+        )}
+
         <button className="toPaymentButton" onClick={handleContinueToPayment}>
           Continue to payment
         </button>

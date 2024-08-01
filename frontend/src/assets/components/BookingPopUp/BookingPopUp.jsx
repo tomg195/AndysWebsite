@@ -5,10 +5,9 @@ import useEscapeKeyPress from "../../../useEscapeKeyPress.js";
 import { useNavigate } from "react-router-dom";
 
 const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
-  const [people, setPeople] = useState(0);
+  const [people, setPeople] = useState(1);
   const [pets, setPets] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   useEscapeKeyPress(onClose);
@@ -31,9 +30,6 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
   const handlePeopleChange = (event) => {
     const selectedPeopleCount = parseInt(event.target.value);
     setPeople(selectedPeopleCount);
-    if (selectedPeopleCount > 0) {
-      setErrorMessage("");
-    }
   };
 
   const handlePetsChange = (event) => {
@@ -41,19 +37,15 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
   };
 
   const handleBookNow = () => {
-    if (people > 0) {
-      navigate("/book", {
-        state: {
-          selectedRange,
-          people,
-          pets,
-          totalPrice,
-          numberOfGuests: people,
-        },
-      });
-    } else {
-      setErrorMessage("Please select total number of people");
-    }
+    navigate("/bookingsummary", {
+      state: {
+        selectedRange,
+        people,
+        pets,
+        totalPrice,
+        numberOfGuests: people,
+      },
+    });
   };
 
   return (
@@ -80,8 +72,8 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
             onChange={handlePeopleChange}
           >
             {[...Array(10)].map((_, index) => (
-              <option key={index} value={index} className="numberStyle">
-                {index}
+              <option key={index} value={index + 1} className="numberStyle">
+                {index + 1}
               </option>
             ))}
           </select>
@@ -99,12 +91,6 @@ const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {
             ))}
           </select>
         </div>
-
-        {errorMessage && (
-          <p style={{ color: "red", fontSize: "small", margin: "2px 0 0 0" }}>
-            {errorMessage}
-          </p>
-        )}
 
         <div className="priceSection">
           <h5>Total price: £{totalPrice}</h5>
