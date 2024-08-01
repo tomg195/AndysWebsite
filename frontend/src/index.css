@@ -284,3 +284,12 @@ h3 {
 .proceed-button:hover {
   background-color: rgb(154, 102, 102);
 }
+
+.adminCalendar {
+  border: 2px solid red;
+  margin-top: 20px;
+}
+
+.adminCalendar .rdrCalendarWrapper {
+  background-color: #f9f9f9;
+}

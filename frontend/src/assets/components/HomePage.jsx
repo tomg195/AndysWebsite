@@ -2,12 +2,23 @@ import { useState, useEffect } from "react";
 import BookingCalendar from "./BookingCalendar";
 import ImageSlider from "./ImageSlider";
 import axios from "axios";
+import { DateRange } from "react-date-range";
+import { startOfDay, endOfDay, format } from "date-fns";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
 function HomePage({ unavailableDates, setUnavailableDates }) {
   const [password, setPassword] = useState("");
   const [passwordVerified, setPasswordVerified] = useState(false);
   const [startDateToDelete, setStartDateToDelete] = useState("");
   const [endDateToDelete, setEndDateToDelete] = useState("");
+  const [adminRange, setAdminRange] = useState([
+    {
+      startDate: startOfDay(new Date()),
+      endDate: endOfDay(new Date()),
+      key: "selection",
+    },
+  ]);
 
   const apiURL = import.meta.env.VITE_API_URL;
 
@@ -48,6 +59,22 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
       fetchUnavailableDates(); // Refresh the unavailable dates
     } catch (error) {
       console.error("Error deleting specific date:", error);
+    }
+  };
+
+  const handleAddUnavailableDate = async () => {
+    try {
+      const response = await axios.post(`${apiURL}/unavailable-dates`, {
+        startDate: format(
+          adminRange[0].startDate,
+          "yyyy-MM-dd'T'00:00:00.000'Z'"
+        ),
+        endDate: format(adminRange[0].endDate, "yyyy-MM-dd'T'23:59:59.999'Z'"),
+      });
+      console.log(response.data); // Check the response from the server
+      fetchUnavailableDates(); // Refresh the unavailable dates
+    } catch (error) {
+      console.error("Error adding unavailable date:", error);
     }
   };
 
@@ -106,6 +133,17 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
             />
             <button onClick={handleDeleteSpecificDate}>
               Delete Specific Date
+            </button>
+
+            <DateRange
+              editableDateInputs={true}
+              onChange={(item) => setAdminRange([item.selection])}
+              moveRangeOnFirstSelection={false}
+              ranges={adminRange}
+              className="adminCalendar"
+            />
+            <button onClick={handleAddUnavailableDate}>
+              Add Unavailable Date
             </button>
           </div>
         ) : (
