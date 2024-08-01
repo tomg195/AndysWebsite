@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { format, differenceInDays } from "date-fns";
-import { calcTotalPrice } from "../../Pricing.js";
-import useEscapeKeyPress from "../../useEscapeKeyPress.js";
+import { calcTotalPrice } from "../../../Pricing.js";
+import useEscapeKeyPress from "../../../useEscapeKeyPress.js";
 import { useNavigate } from "react-router-dom";
 
 const BookingPopUp = ({ onClose, onBookNow, selectedRange }) => {

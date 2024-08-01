@@ -1,0 +1,55 @@
+.banner {
+  background-color: antiquewhite;
+  width: 100%;
+  padding: 20px 0;
+  text-align: center; /* Center the text horizontally */
+}
+
+h1 {
+  font-size: 5rem;
+  /* align-items: center; */
+  align-items: flex-start;
+  line-height: 1.1;
+  font-weight: 400;
+}
+
+h2 {
+  font-size: 5rem;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.admin-login {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.admin-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.exit-button {
+  background-color: #ff5c5c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.exit-button:hover {
+  background-color: #ff1c1c;
+}

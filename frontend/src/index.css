@@ -21,27 +21,6 @@ body {
   min-height: 100vh;
 }
 
-.banner {
-  background-color: antiquewhite;
-  width: 100%;
-  padding: 20px 0;
-  text-align: center; /* Center the text horizontally */
-}
-
-h1 {
-  font-size: 5rem;
-  /* align-items: center; */
-  align-items: flex-start;
-  line-height: 1.1;
-  font-weight: 400;
-}
-
-h2 {
-  font-size: 5rem;
-  font-weight: 400;
-  line-height: 1.1;
-}
-
 #root {
   /* max-width: 1280px; */
   margin: 0 auto;
@@ -283,13 +262,4 @@ h3 {
 
 .proceed-button:hover {
   background-color: rgb(154, 102, 102);
-}
-
-.adminCalendar {
-  border: 2px solid red;
-  margin-top: 20px;
-}
-
-.adminCalendar .rdrCalendarWrapper {
-  background-color: #f9f9f9;
 }

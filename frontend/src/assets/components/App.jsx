@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import BookingSummary from "./BookingSummary";
-import CheckoutConfirmation from "./CheckoutConfirmation";
-import HomePage from "./HomePage";
+import BookingSummary from "./BookingSummary/BookingSummary";
+import CheckoutConfirmation from "./CheckoutConfirmation/CheckoutConfirmation";
+import HomePage from "./HomePage/HomePage";
 import axios from "axios";
 
 function App() {

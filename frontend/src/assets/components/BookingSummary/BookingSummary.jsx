@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useEscapeKeyPress from "../../useEscapeKeyPress";
+import useEscapeKeyPress from "../../../useEscapeKeyPress";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const BookingSummary = ({ onClose, onBack }) => {

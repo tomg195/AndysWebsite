@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import BookingCalendar from "./BookingCalendar";
-import ImageSlider from "./ImageSlider";
+import BookingCalendar from "../BookingCalendar/BookingCalendar";
+import ImageSlider from "../ImageSlider";
 import axios from "axios";
 import { DateRange } from "react-date-range";
 import { startOfDay, endOfDay, format } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import "./HomePage.css"; // Import the CSS file for styling
 
 function HomePage({ unavailableDates, setUnavailableDates }) {
   const [password, setPassword] = useState("");
@@ -101,6 +102,10 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
     }
   };
 
+  const handleExitAdminPanel = () => {
+    setPasswordVerified(false);
+  };
+
   return (
     <div>
       <div className="banner">
@@ -113,12 +118,9 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
       <div>
         <BookingCalendar unavailableDates={unavailableDates} />
       </div>
-      <div
-        className="admin-login"
-        style={{ position: "absolute", top: "10px", right: "10px" }}
-      >
+      <div className="admin-login">
         {passwordVerified ? (
-          <div>
+          <div className="admin-panel">
             <input
               type="date"
               placeholder="Enter start date to delete"
@@ -142,9 +144,14 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
               ranges={adminRange}
               className="adminCalendar"
             />
-            <button onClick={handleAddUnavailableDate}>
-              Add Unavailable Date
-            </button>
+            <div className="admin-buttons">
+              <button onClick={handleAddUnavailableDate}>
+                Add Unavailable Date
+              </button>
+              <button onClick={handleExitAdminPanel} className="exit-button">
+                X
+              </button>
+            </div>
           </div>
         ) : (
           <div>
