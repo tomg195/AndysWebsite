@@ -1,4 +1,3 @@
-/* BookingSummary styling */
 .summaryPopUp {
   position: fixed;
   background-color: white;
@@ -40,6 +39,7 @@
 }
 
 .guestForm {
+  position: relative;
   margin-top: -3.5rem;
   margin-bottom: -2rem;
 }
@@ -61,17 +61,4 @@
   font-family: Bell MT, sans-serif;
   border-radius: 10px;
   margin-top: 5rem;
-}
-
-/* Debugging styles */
-.summaryPopUp,
-.guestDetails,
-.contactDetails,
-.contactForm,
-.guestForm,
-.guestBoxes,
-.contactBoxes {
-  position: relative;
-  z-index: 10;
-  background-color: white; /* Ensure they are not blocked */
 }

@@ -178,7 +178,14 @@ const BookingSummary = ({ onClose, onBack }) => {
         ))}
 
         {errorMessage && (
-          <p style={{ color: "red", fontSize: "small", margin: "5px 0 0 0" }}>
+          <p
+            style={{
+              color: "red",
+              fontSize: "medium",
+              marginTop: "50px",
+              marginBottom: "-50px",
+            }}
+          >
             {errorMessage}
           </p>
         )}
