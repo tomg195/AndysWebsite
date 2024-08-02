@@ -5,6 +5,7 @@ import "./BookingSummary.css";
 
 const BookingSummary = ({
   onClose,
+  onBack,
   selectedRange,
   people,
   pets,
@@ -105,7 +106,7 @@ const BookingSummary = ({
       <div className="popUpOverlay" onClick={onClose}></div>
       <div className="summaryPopUp">
         <div className="header">
-          <span className="backButton" onClick={onClose}>
+          <span className="backButton" onClick={onBack}>
             ↩
           </span>
           <h3>Your Booking</h3>

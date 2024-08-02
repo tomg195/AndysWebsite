@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import BookingSummary from "./BookingSummary/BookingSummary";
 import CheckoutConfirmation from "./CheckoutConfirmation/CheckoutConfirmation";

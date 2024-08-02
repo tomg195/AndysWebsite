@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { addDays, startOfDay, endOfDay } from "date-fns";
 import { DateRange } from "react-date-range";
-import BookingPopUp from "../BookingPopUp/BookingPopUp";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
-const BookingCalendar = ({ unavailableDates }) => {
+const BookingCalendar = ({ unavailableDates, onSelectRange }) => {
   const [range, setRange] = useState([
     {
       startDate: startOfDay(new Date()),
@@ -15,7 +14,6 @@ const BookingCalendar = ({ unavailableDates }) => {
   ]);
 
   const [daysSelected, setDaysSelected] = useState(false);
-  const [showPopUp, setShowPopUp] = useState(false);
 
   const handleDaysSelect = (item) => {
     const startDate = startOfDay(new Date(item.selection.startDate));
@@ -32,11 +30,7 @@ const BookingCalendar = ({ unavailableDates }) => {
   };
 
   const handleReserveClick = () => {
-    setShowPopUp(true);
-  };
-
-  const closePopUp = () => {
-    setShowPopUp(false);
+    onSelectRange(range[0]);
   };
 
   useEffect(() => {
@@ -87,9 +81,6 @@ const BookingCalendar = ({ unavailableDates }) => {
           </button>
         )}
       </div>
-      {showPopUp && (
-        <BookingPopUp onClose={closePopUp} selectedRange={range[0]} />
-      )}
     </div>
   );
 };

@@ -7,6 +7,8 @@ import { startOfDay, endOfDay, format } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./HomePage.css"; // Import the CSS file for styling
+import BookingPopUp from "../BookingPopUp/BookingPopUp";
+import BookingSummary from "../BookingSummary/BookingSummary";
 
 function HomePage({ unavailableDates, setUnavailableDates }) {
   const [password, setPassword] = useState("");
@@ -20,6 +22,13 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
       key: "selection",
     },
   ]);
+
+  const [showBookingPopUp, setShowBookingPopUp] = useState(false);
+  const [showBookingSummary, setShowBookingSummary] = useState(false);
+  const [selectedRange, setSelectedRange] = useState(null);
+  const [people, setPeople] = useState(1);
+  const [pets, setPets] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const apiURL = import.meta.env.VITE_API_URL;
 
@@ -106,6 +115,38 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
     setPasswordVerified(false);
   };
 
+  const handleOpenBookingPopUp = (range) => {
+    console.log("handleOpenBookingPopUp called");
+    setSelectedRange(range);
+    setShowBookingPopUp(true);
+  };
+
+  const handleCloseAllPopUps = () => {
+    console.log("handleCloseAllPopUps called");
+    setShowBookingPopUp(false);
+    setShowBookingSummary(false);
+  };
+
+  const handleShowBookingSummary = (people, pets, totalPrice) => {
+    console.log("handleShowBookingSummary called");
+    setPeople(people);
+    setPets(pets);
+    setTotalPrice(totalPrice);
+    setShowBookingPopUp(false); // Close BookingPopUp
+    setShowBookingSummary(true); // Show BookingSummary
+  };
+
+  const handleBackToBookingPopUp = () => {
+    console.log("handleBackToBookingPopUp called");
+    setShowBookingSummary(false);
+    setShowBookingPopUp(true);
+  };
+
+  useEffect(() => {
+    console.log("HomePage rendered");
+    console.log("handleShowBookingSummary:", handleShowBookingSummary);
+  }, []);
+
   return (
     <div>
       <div className="banner">
@@ -116,7 +157,10 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
       </div>
       <h2>Pick your days:</h2>
       <div>
-        <BookingCalendar unavailableDates={unavailableDates} />
+        <BookingCalendar
+          unavailableDates={unavailableDates}
+          onSelectRange={handleOpenBookingPopUp}
+        />
       </div>
       <div className="admin-login">
         {passwordVerified ? (
@@ -165,6 +209,25 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
           </div>
         )}
       </div>
+
+      {showBookingPopUp && (
+        <BookingPopUp
+          selectedRange={selectedRange}
+          onClose={handleCloseAllPopUps}
+          onContinue={handleShowBookingSummary}
+        />
+      )}
+
+      {showBookingSummary && (
+        <BookingSummary
+          selectedRange={selectedRange}
+          people={people}
+          pets={pets}
+          totalPrice={totalPrice}
+          onClose={handleCloseAllPopUps}
+          onBack={handleBackToBookingPopUp}
+        />
+      )}
     </div>
   );
 }
