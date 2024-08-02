@@ -90,7 +90,7 @@ const BookingSummary = ({ onClose, onBack }) => {
       name: "title",
       type: "select",
       options: ["Mr", "Mrs", "Miss", "Ms", "Dr", "other"],
-      placeholder: "Title*",
+      placeholder: "Title",
     },
     { name: "firstname", type: "text", placeholder: "First Name*" },
     { name: "lastname", type: "text", placeholder: "Last Name*" },
