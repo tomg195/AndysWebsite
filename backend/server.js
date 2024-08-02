@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const app = express();
@@ -23,6 +24,15 @@ const dateSchema = new mongoose.Schema({
 });
 
 const UnavailableDate = mongoose.model("UnavailableDate", dateSchema);
+
+// Nodemailer setup
+const transporter = nodemailer.createTransport({
+  service: "hotmail",
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASSWORD,
+  },
+});
 
 // API Routes
 app.get("/unavailable-dates", async (req, res) => {
@@ -66,6 +76,55 @@ app.delete("/unavailable-dates", async (req, res) => {
   } else {
     res.status(403).json({ message: "Incorrect password" });
   }
+});
+
+app.post("/send-confirmation-email", async (req, res) => {
+  const { contactData, guestData, selectedRange, people, pets, totalPrice } =
+    req.body;
+
+  const hostEmail = "gardner195@msn.com";
+  const userEmail = contactData.email;
+
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: [hostEmail, userEmail],
+    subject: "Booking Confirmation",
+    text: `
+      Booking Details:
+      Dates: ${selectedRange.startDate} - ${selectedRange.endDate}
+      People: ${people}
+      Pets: ${pets}
+      Total Price: £${totalPrice}
+
+      Contact Details:
+      Title: ${contactData.title}
+      First Name: ${contactData.firstname}
+      Last Name: ${contactData.lastname}
+      Address 1: ${contactData.address1}
+      Address 2: ${contactData.address2}
+      City/Town: ${contactData.cityTown}
+      Postcode: ${contactData.postcode}
+      County: ${contactData.county}
+      Email: ${contactData.email}
+      Mobile: ${contactData.mobile}
+
+      Guest Details:
+      ${guestData
+        .map(
+          (guest, index) =>
+            `Guest ${index + 1}: ${guest.firstname} ${guest.lastname}`
+        )
+        .join("\n")}
+    `,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.status(500).json({ message: "Error sending email", error });
+    } else {
+      res.status(200).json({ message: "Confirmation email sent", info });
+    }
+  });
 });
 
 app.listen(port, () => {

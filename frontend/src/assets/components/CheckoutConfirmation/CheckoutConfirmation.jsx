@@ -6,7 +6,8 @@ import axios from "axios";
 const CheckoutConfirmation = ({ updateUnavailableDates }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { selectedRange, people, pets, totalPrice } = location.state || {};
+  const { selectedRange, people, pets, totalPrice, contactData, guestData } =
+    location.state || {};
   const apiURL = import.meta.env.VITE_API_URL;
 
   const formatDate = (date) => {
@@ -29,6 +30,20 @@ const CheckoutConfirmation = ({ updateUnavailableDates }) => {
         endDate: `${endDate}T23:59:59.999Z`,
       });
       updateUnavailableDates(selectedRange); // Assuming this updates the state in a parent component or context
+
+      // Send booking details email
+      await axios.post(`${apiURL}/send-confirmation-email`, {
+        contactData,
+        guestData,
+        selectedRange: {
+          startDate: selectedRange.startDate.toISOString(),
+          endDate: selectedRange.endDate.toISOString(),
+        },
+        people,
+        pets,
+        totalPrice,
+      });
+
       navigate("/");
     } catch (error) {
       console.error("Error confirming booking:", error);

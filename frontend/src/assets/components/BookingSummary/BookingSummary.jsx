@@ -76,6 +76,8 @@ const BookingSummary = ({
           people,
           pets,
           totalPrice,
+          contactData,
+          guestData,
         },
       });
     } else {

@@ -11,7 +11,6 @@ const BookingPopUp = ({ onClose, selectedRange, onContinue }) => {
   useEscapeKeyPress(onClose);
 
   useEffect(() => {
-    console.log("BookingPopUp props:", { onClose, selectedRange, onContinue });
     const nights = differenceInDays(
       selectedRange.endDate,
       selectedRange.startDate
@@ -31,13 +30,7 @@ const BookingPopUp = ({ onClose, selectedRange, onContinue }) => {
   };
 
   const handleContinue = () => {
-    console.log("handleContinue called");
-    console.log("onContinue:", onContinue);
-    if (typeof onContinue === "function") {
-      onContinue(people, pets, totalPrice);
-    } else {
-      console.error("onContinue is not a function");
-    }
+    onContinue(people, pets, totalPrice);
   };
 
   return (

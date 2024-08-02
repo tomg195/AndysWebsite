@@ -116,19 +116,16 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
   };
 
   const handleOpenBookingPopUp = (range) => {
-    console.log("handleOpenBookingPopUp called");
     setSelectedRange(range);
     setShowBookingPopUp(true);
   };
 
   const handleCloseAllPopUps = () => {
-    console.log("handleCloseAllPopUps called");
     setShowBookingPopUp(false);
     setShowBookingSummary(false);
   };
 
   const handleShowBookingSummary = (people, pets, totalPrice) => {
-    console.log("handleShowBookingSummary called");
     setPeople(people);
     setPets(pets);
     setTotalPrice(totalPrice);
@@ -137,15 +134,9 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
   };
 
   const handleBackToBookingPopUp = () => {
-    console.log("handleBackToBookingPopUp called");
     setShowBookingSummary(false);
     setShowBookingPopUp(true);
   };
-
-  useEffect(() => {
-    console.log("HomePage rendered");
-    console.log("handleShowBookingSummary:", handleShowBookingSummary);
-  }, []);
 
   return (
     <div>
