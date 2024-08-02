@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
-import useEscapeKeyPress from "../../../useEscapeKeyPress";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 import "./BookingSummary.css";
 
-const BookingSummary = ({ onClose, onBack }) => {
+const BookingSummary = ({
+  onClose,
+  selectedRange,
+  people,
+  pets,
+  totalPrice,
+}) => {
   const [contactData, setContactData] = useState({
     title: "",
     firstname: "",
@@ -16,33 +22,24 @@ const BookingSummary = ({ onClose, onBack }) => {
     email: "",
     mobile: "",
   });
-
   const [guestData, setGuestData] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-  const location = useLocation();
   const navigate = useNavigate();
 
-  const { selectedRange, people, pets, totalPrice, numberOfGuests } =
-    location.state || {
-      selectedRange: { startDate: null, endDate: null },
-      people: 0,
-      pets: 0,
-      totalPrice: 0,
-      numberOfGuests: 0,
-    };
-
   useEffect(() => {
-    if (numberOfGuests > 0) {
+    if (people > 0) {
       setGuestData(
-        Array.from({ length: numberOfGuests }, () => ({
+        Array.from({ length: people }, () => ({
           firstname: "",
           lastname: "",
         }))
       );
     }
-  }, [numberOfGuests]);
+  }, [people]);
 
-  useEscapeKeyPress(onClose);
+  const formatDate = (date) => {
+    return format(date, "EEE, d MMM");
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -108,7 +105,7 @@ const BookingSummary = ({ onClose, onBack }) => {
       <div className="popUpOverlay" onClick={onClose}></div>
       <div className="summaryPopUp">
         <div className="header">
-          <span className="backButton" onClick={onBack}>
+          <span className="backButton" onClick={onClose}>
             ↩
           </span>
           <h3>Your Booking</h3>
