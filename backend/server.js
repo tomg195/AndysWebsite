@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
+const { format } = require("date-fns");
 require("dotenv").config();
 
 const app = express();
@@ -85,13 +86,24 @@ app.post("/send-confirmation-email", async (req, res) => {
   const hostEmail = "gardner195@msn.com";
   const userEmail = contactData.email;
 
-  const mailOptions = {
+  // Format dates
+  const formattedStartDate = format(
+    new Date(selectedRange.startDate),
+    "EEEE, do MMMM"
+  );
+  const formattedEndDate = format(
+    new Date(selectedRange.endDate),
+    "EEEE, do MMMM"
+  );
+
+  // Email to host
+  const hostMailOptions = {
     from: process.env.EMAIL,
-    to: [hostEmail, userEmail],
-    subject: "Booking Confirmation",
+    to: hostEmail,
+    subject: "New Booking Confirmation",
     text: `
       Booking Details:
-      Dates: ${selectedRange.startDate} - ${selectedRange.endDate}
+      Dates: ${formattedStartDate} - ${formattedEndDate}
       People: ${people}
       Pets: ${pets}
       Total Price: £${totalPrice}
@@ -118,13 +130,64 @@ app.post("/send-confirmation-email", async (req, res) => {
     `,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return res.status(500).json({ message: "Error sending email", error });
-    } else {
-      res.status(200).json({ message: "Confirmation email sent", info });
-    }
-  });
+  // Email to user
+  const userMailOptions = {
+    from: process.env.EMAIL,
+    to: userEmail,
+    subject: "Booking Confirmation - Andy's Holiday Home",
+    html: `
+      <h1>Booking Confirmation</h1>
+      <p>Thank you for booking! Here are your booking details:</p>
+      <table>
+        <tr>
+          <th>Dates:</th>
+          <td>${formattedStartDate} - ${formattedEndDate}</td>
+        </tr>
+        <tr>
+          <th>People:</th>
+          <td>${people}</td>
+        </tr>
+        <tr>
+          <th>Pets:</th>
+          <td>${pets}</td>
+        </tr>
+        <tr>
+          <th>Total Price:</th>
+          <td>£${totalPrice}</td>
+        </tr>
+      </table>
+      <h2>Your Contact Details:</h2>
+      <p>${contactData.title} ${contactData.firstname} ${
+      contactData.lastname
+    }</p>
+      <p>${contactData.address1}, ${contactData.address2}</p>
+      <p>${contactData.cityTown}, ${contactData.county}, ${
+      contactData.postcode
+    }</p>
+      <p>Email: ${contactData.email}</p>
+      <p>Mobile: ${contactData.mobile}</p>
+      <h2>Your Guest Details:</h2>
+      <ul>
+        ${guestData
+          .map(
+            (guest, index) =>
+              `<li>Guest ${index + 1}: ${guest.firstname} ${
+                guest.lastname
+              }</li>`
+          )
+          .join("")}
+      </ul>
+      <p>Please contact Andy if you have any questions about your stay</p>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(hostMailOptions);
+    await transporter.sendMail(userMailOptions);
+    res.status(200).json({ message: "Confirmation emails sent" });
+  } catch (error) {
+    res.status(500).json({ message: "Error sending emails", error });
+  }
 });
 
 app.listen(port, () => {
