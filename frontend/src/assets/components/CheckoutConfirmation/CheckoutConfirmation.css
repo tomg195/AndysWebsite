@@ -8,10 +8,28 @@
   box-sizing: border-box;
 }
 
+.header {
+  display: flex;
+  justify-content: center; /* Center the header content */
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.home-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  left: 100px;
+  color: rgb(154, 102, 102);
+}
+
 .checkout-confirmation h4 {
   margin: 0;
   padding: 20px;
   text-align: center;
+  flex-grow: 1;
 }
 
 .checkout-details {

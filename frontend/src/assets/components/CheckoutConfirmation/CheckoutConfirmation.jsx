@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import axios from "axios";
 import "./CheckoutConfirmation.css";
+import { FaHome } from "react-icons/fa"; // Import the home icon from react-icons
 
 const CheckoutConfirmation = ({ updateUnavailableDates }) => {
   const location = useLocation();
@@ -22,7 +23,6 @@ const CheckoutConfirmation = ({ updateUnavailableDates }) => {
 
   const handleConfirmBooking = async () => {
     try {
-      // Ensure dates are handled in local time without time conversion
       const startDate = format(new Date(selectedRange.startDate), "yyyy-MM-dd");
       const endDate = format(new Date(selectedRange.endDate), "yyyy-MM-dd");
 
@@ -30,9 +30,8 @@ const CheckoutConfirmation = ({ updateUnavailableDates }) => {
         startDate: `${startDate}T00:00:00.000Z`,
         endDate: `${endDate}T23:59:59.999Z`,
       });
-      updateUnavailableDates(selectedRange); // Assuming this updates the state in a parent component or context
+      updateUnavailableDates(selectedRange);
 
-      // Send booking details email
       await axios.post(`${apiURL}/send-confirmation-email`, {
         contactData,
         guestData,
@@ -53,7 +52,12 @@ const CheckoutConfirmation = ({ updateUnavailableDates }) => {
 
   return (
     <div className="checkout-confirmation">
-      <h4>Checkout Confirmation</h4>
+      <div className="header">
+        <button className="home-button" onClick={() => navigate("/")}>
+          <FaHome size={40} />
+        </button>
+        <h4>Checkout Confirmation</h4>
+      </div>
       <div className="checkout-details">
         <p>
           Dates: {formatDate(new Date(selectedRange.startDate))} -{" "}
