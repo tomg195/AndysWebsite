@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import axios from "axios";
+import "./CheckoutConfirmation.css";
 
 const CheckoutConfirmation = ({ updateUnavailableDates }) => {
   const location = useLocation();
@@ -61,9 +62,27 @@ const CheckoutConfirmation = ({ updateUnavailableDates }) => {
         <p>People: {people}</p>
         <p>Pets: {pets}</p>
         <p>Total Price: £{totalPrice}</p>
+        <div className="payment-instructions">
+          <p>
+            If you are happy and certain of the days you have selected, please
+            make a bank transfer to Andy. His details are as follows:
+          </p>
+          <div className="bank-details">
+            <p>Mr Andrew M Harding</p>
+            <p>Sort code: 11-03-36</p>
+            <p>Account number: 10593265</p>
+          </div>
+          <p>
+            Once you have made the transfer please click the 'Confirm booking'
+            button. Andy will be automatically notified of your booking, and you
+            will receive confirmation of your booking.
+          </p>
+        </div>
       </div>
-      Note: Please ONLY click 'Confirm booking' when you have transferred the
-      above amount to Andy
+      <p>
+        Note: Please ONLY click 'Confirm booking' when you have transferred the
+        above amount to Andy
+      </p>
       <button className="proceed-button" onClick={handleConfirmBooking}>
         Confirm booking
       </button>
