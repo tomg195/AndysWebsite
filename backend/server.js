@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(cors()); // Enable CORS
 
 // MongoDB Connection
-mongoose.connect("mongodb://localhost:27017/booking", {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
