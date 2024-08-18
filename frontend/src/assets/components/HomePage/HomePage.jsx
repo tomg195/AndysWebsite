@@ -6,7 +6,7 @@ import { DateRange } from "react-date-range";
 import { startOfDay, endOfDay, format } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import "./HomePage.css"; // Import the CSS file for styling
+import "./HomePage.css";
 import BookingPopUp from "../BookingPopUp/BookingPopUp";
 import BookingSummary from "../BookingSummary/BookingSummary";
 
@@ -195,6 +195,11 @@ function HomePage({ unavailableDates, setUnavailableDates }) {
               placeholder="Admin password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  checkPassword();
+                }
+              }}
             />
             <button onClick={checkPassword}>Login</button>
           </div>
