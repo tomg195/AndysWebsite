@@ -1,11 +1,10 @@
 :root {
-  font-family: Bell MT, sans-serif;
+  font-family: "Sedan", serif;
   line-height: 1.5;
-  font-weight: 400;
+  font-weight: 200;
 
   color-scheme: light dark;
-  color: rgba(20, 19, 19, 0.87);
-  /* color: rgba(5, 243, 144, 0.87); */
+  color: rgba(52, 48, 69, 0.87);
   background-color: #e1bbbb;
 
   font-synthesis: none;
@@ -22,9 +21,7 @@ body {
 }
 
 #root {
-  /* max-width: 1280px; */
   margin: 0 auto;
-  /* padding: 2rem; */
   text-align: center;
 }
 
@@ -42,7 +39,6 @@ body {
 }
 
 .reserveButton {
-  /* flex: 1; */
   height: 3rem;
   width: 10rem;
   background-color: rgb(154, 102, 102);
@@ -55,7 +51,6 @@ body {
   border-radius: 10px;
 }
 
-/* BookingPopUp styling */
 .popUpOverlay {
   position: fixed;
   top: 0;
@@ -84,10 +79,6 @@ body.popUp-open {
   overflow: hidden;
 }
 
-/* .body-popUp-open {
-  overflow: hidden;
-} */
-
 .closeButton1 {
   cursor: pointer;
   font-weight: bold;
@@ -107,7 +98,6 @@ h4 {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  /* padding-left: 15rem; */
 }
 
 .backButton {
@@ -155,10 +145,5 @@ h3 {
 }
 
 .numberStyle {
-  /* color: black; */
   font-size: 15px;
 }
-
-/* .priceSection {
-  margin-bottom: 1rem;
-} */
