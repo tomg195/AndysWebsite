@@ -9,21 +9,26 @@ require("dotenv").config(); // Load environment variables
 const app = express();
 const port = process.env.PORT || 5000;
 
-const allowedOrigins = [
-  "http://localhost:5173", // Local development URL
-  "https://andyhardingholidayhome.netlify.app/", // Production URL
-];
+// const allowedOrigins = [
+//   "http://localhost:5173", // Local development URL
+//   "https://andyhardingholidayhome.netlify.app/", // Production URL
+// ];
+
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     // Allow requests with no origin (like mobile apps, curl requests)
+//     if (!origin) return callback(null, true);
+//     if (allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   optionsSuccessStatus: 200,
+// };
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps, curl requests)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: "*", // Allow all origins temporarily for debugging
   optionsSuccessStatus: 200,
 };
 
