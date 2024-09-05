@@ -28,6 +28,10 @@ dist-ssr
 *.sln
 *.sw?
 
-# Environment variables
-.env
-.env.production
+# Ignore frontend environment files
+/frontend/.env
+/frontend/.env.production
+
+# Ignore backend environment files
+/backend/.env
+
