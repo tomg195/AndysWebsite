@@ -10,9 +10,8 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // const allowedOrigins = [
-//   // "http://localhost:5173", // Local development URL
-//   // "https://andyhardingholidayhome.netlify.app",
-//   "*",
+//   "http://localhost:5173", // Local development URL
+//   "https://andyhardingholidayhome.netlify.app",
 // ];
 
 // const corsOptions = {
@@ -27,15 +26,13 @@ const port = process.env.PORT || 5000;
 //   optionsSuccessStatus: 200,
 // };
 
-// // Middleware
-// app.use(bodyParser.json());
-// app.use(cors(corsOptions)); // Enable CORS with specific options
-
+// Allowed Origins for CORS
 const allowedOrigins = [
   "http://localhost:5173", // For local development
   "https://andyhardingholidayhome.netlify.app", // Production frontend URL
 ];
 
+// CORS options
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -44,10 +41,15 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  optionsSuccessStatus: 200,
+  optionsSuccessStatus: 200, // For legacy browsers
 };
 
-app.use(cors(corsOptions)); // Apply CORS with the updated options
+// Apply middleware
+app.use(bodyParser.json());
+app.use(cors(corsOptions)); // Enable CORS with specific options
+
+// Enable preflight (OPTIONS) request handling for all routes
+app.options("*", cors(corsOptions));
 
 // MongoDB Connection
 mongoose
