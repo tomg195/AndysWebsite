@@ -10,8 +10,9 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const allowedOrigins = [
-  "http://localhost:5173", // Local development URL
-  "https://andyhardingholidayhome.netlify.app/", // Production URL
+  // "http://localhost:5173", // Local development URL
+  // "https://andyhardingholidayhome.netlify.app",
+  "*",
 ];
 
 const corsOptions = {

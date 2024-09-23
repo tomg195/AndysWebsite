@@ -10,8 +10,6 @@ export const calcTotalPrice = (peopleCount, petCount, numberOfNights) => {
 
   let totalPrice;
 
-  // test yallll
-
   if (numberOfNights < 7) {
     totalPrice = basePrice + additionalPricePerDay * (numberOfNights - 1);
   } else {
