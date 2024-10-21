@@ -9,23 +9,6 @@ require("dotenv").config(); // Load environment variables
 const app = express();
 const port = process.env.PORT || 5000;
 
-// const allowedOrigins = [
-//   "http://localhost:5173", // Local development URL
-//   "https://andyhardingholidayhome.netlify.app",
-// ];
-
-// const corsOptions = {
-//   origin: (origin, callback) => {
-//     if (!origin) return callback(null, true);
-//     if (allowedOrigins.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   optionsSuccessStatus: 200,
-// };
-
 // Allowed Origins for CORS
 const allowedOrigins = [
   "http://localhost:5173", // For local development
